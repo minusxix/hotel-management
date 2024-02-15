@@ -1,0 +1,31 @@
+{% extends 'layout/base.html' %}
+{% block content %}
+<section>
+    <div class="container">
+        <div class="post row">
+            <div class="post-left row">
+                <div class="post-big">
+                    <img src="/static/img/{{ room.image }}">
+                </div>
+            </div>
+            <div class="post-right">
+                <div class="post-name">
+                    <h1>Phòng {{ room.name }}</h1>
+                </div>
+                <div class="post-price">
+                    <p>{{ "{:,}".format(room.price) }} <sup>VNĐ</sup></p>
+                </div>
+                <div class="post-cart">
+                        <a href="#" onclick="addToCart({{room.id}}, '{{room.name}}', {{room.price}})">Đặt phòng</a>
+                    </div>
+                <div class="post-phone" title="02835267667">
+                    <a href="tel:02835267667">
+                        <i class="bx bx-phone"></i>
+                        <p>Liên Hệ</p>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

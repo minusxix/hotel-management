@@ -1,0 +1,38 @@
+{% extends 'admin/master.html' %} #bootstrap
+{% block body %}
+{% if current_user.is_authenticated %}
+<h1 class="text-center text-info">Chào {{ current_user.name }}</h1>
+<div class="row">
+    <div class="col-md-12">
+        <table class="table">
+            <tr>
+                <th>ID</th>
+                <th>Loại phòng</th>
+                <th>Số phòng</th>
+            </tr>
+            {% for c in count %}
+            <tr>
+                <td>{{ c[0] }}</td>
+                <td>{{ c[1] }}</td>
+                <td>{{ c[2] }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+</div>
+{% else %}
+<form method="post" action="/admin/login">
+    <div class="mb-3 mt-3">
+        <label for="username">Tên đăng nhập</label>
+        <input type="text" class="form-control" id="username" name="username" placeholder="Tên đăng nhập" required>
+    </div>
+    <div class="mt-3 mb-3">
+        <label for="password">Mật khẩu</label>
+        <input type="password" class="form-control" id="password" name="password" placeholder="Mật khẩu" required>
+    </div>
+     <div class="form-floating mt-3 mb-3">
+         <button type="submit" class="btn btn-danger">Đăng nhập</button>
+     </div>
+</form>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,107 @@
+{% extends 'admin/master.html' %}
+{% block body %}
+<h3 class="text-center">BÁO CÁO DOANH THU</h3>
+<div class="row">
+    <div class="col-md-7 col-sm-12">
+        <form>
+            <div class="form-group">
+                <input type="text" placeholder="Nhập từ khóa..." class="form-control" name="kw" />
+            </div>
+            <div class="form-group">
+                <label>Từ ngày</label>
+                <input type="date" class="form-control" name="from_date" />
+            </div>
+            <div class="form-group">
+                <label>Đến ngày</label>
+                <input type="date" class="form-control" name="to_date" />
+            </div>
+            <div>
+                <input type="submit" value="Lọc dữ liệu" class="btn btn-info" />
+            </div>
+        </form>
+    </div>
+    <div>
+        <canvas id="chart"></canvas>
+    </div>
+</div>
+<div>
+    <table class="table">
+        <tr>
+            <th>ID</th>
+            <th>Loại phòng</th>
+            <th>Doanh thu</th>
+            <th>Số lượt thuê</th>
+            <th>Tỷ lệ</th>
+        </tr>
+        {% for s in stats %}
+        <tr>
+            <td>{{ s[0] }}</td>
+            <td>{{ s[1] }}</td>
+            <td>{{ s[2] }}</td>
+            <td>{{ s[3] }}</td>
+            <td>{{ s[4] }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    <h5>Tổng doanh thu: {{ export }}</h5>
+</div>
+<h3 class="text-center">TẦN SUẤT SỬ DỤNG PHÒNG</h3>
+<div class="row">
+    <div>
+        <form>
+            <div class="col-md-12 form-group p_star">
+                <p>Tháng</p>
+                <input type="number" class="form-control" name="month" value="{{ current_month }}"/>
+            </div>
+            <div class="col-md-12 form-group p_star">
+                <p>Năm</p>
+                <input type="number" class="form-control" name="year" value="{{ current_year }}"/>
+            </div>
+            <div style="padding-left: 15px">
+                <input type="submit" value="Lọc dữ liệu" class="btn btn-info">
+            </div>
+        </form>
+    </div>
+    <div>
+        <table class="table">
+            <tr>
+                <th>ID</th>
+                <th>Phòng</th>
+                <th>Số ngày thuê</th>
+                <th>Tỷ lệ</th>
+            </tr>
+            {% for r in report %}
+            <tr>
+                <td>{{ r[0] }}</td>
+                <td>{{ r[1] }}</td>
+                <td>{{ r[2] }}</td>
+                <td>{{ r[3] }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+    <div>
+        <canvas id="chart2"></canvas>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="{{ url_for('static', filename='js/chart.js') }}"></script>
+<script>
+    let label = []
+    let data = []
+    let label2 = []
+    let data2 = []
+    {% for s in stats %}
+    label.push('{{ s[1] }}')
+    data.push({{ s[2] }})
+    {% endfor %}
+    {% for r in report %}
+    label2.push('{{ r[1] }}')
+    data2.push({{ r[2] }})
+    {% endfor %}
+    window.onload = function() {
+        revenueChart(label, data)
+        frequencyChart(label2, data2)
+    }
+</script>
+{% endblock %}

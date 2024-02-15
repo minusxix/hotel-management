@@ -1,0 +1,24 @@
+{% extends 'layout/base.html' %}
+{% block title %}Trang Chủ{% endblock %}
+{% block content %}
+<section id="hot">
+    <div class="hot">
+        <div class="row">
+            <div class="hot-right row">
+                {% for r in rooms %}
+                <div class="hot-item l-4 m-6 c-12">
+                    <a href="/room/{{ r.id }}">
+                        <img src="{{ url_for('static', filename='img/' + r.image) }}" width="250px" height="250px">
+                    </a>
+                    <h1>Phòng {{ r.name }}</h1>
+                    <p>{{ "{:,}".format(r.price) }}</p>
+                    <div class="button">
+                        <a href="#" onclick="addToCart({{r.id}}, '{{r.name}}', {{r.price}})">Đặt phòng</a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

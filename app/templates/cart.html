@@ -1,0 +1,95 @@
+{% extends 'layout/base.html' %}
+{% block title %}Giữ Phòng{% endblock %}
+{% block content %}
+{% if 'cart' in session and session['cart'] %}
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Price</th>
+        <th>Quantity</th>
+        <th></th>
+    </tr>
+    {% for c in session['cart'].values() %}
+    <tr id="cart{{ c.id }}">
+        <td>{{ c.id }}</td>
+        <td>{{ c.name }}</td>
+        <td>{{ c.price }}</td>
+        <td>
+            <input type="number" value="{{ c.quantity }}" onblur="updateCart({{ c.id }}, this)" />
+        </td>
+        <td>
+            <input type="button" value="Xóa" onclick="deleteCart({{ c.id }}, this)"/>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+<div id="data-container" data-max-value="{{ max_value }}">
+<!--    <button id="add-button">Thêm</button>-->
+</div>
+<div style="margin-top: 10px">
+    <input type="date" id="check_in" onchange="calculateTotalAmount()" required>
+</div>
+<div>
+    <input type="date" id="check_out" onchange="calculateTotalAmount()" required>
+</div>
+{% for i in range(max_value) %}
+<div>
+    <input type="text" id="customer_name_{{ i }}" placeholder="Nhập họ tên" required>
+</div>
+<select id="type_id_{{ i }}">
+    {% for c in customers %}
+    <option value="{{ c.id }}">{{ c.type }}</option>
+    {% endfor %}
+</select>
+<div>
+    <input type="text" id="identification_{{ i }}" placeholder="Nhập căn cước" required>
+</div>
+<div>
+    <input type="text" id="address_{{ i }}" placeholder="Nhập địa chỉ" required>
+</div>
+{% endfor %}
+<div>
+    <h3>Tổng số lượng: <span class="cart-counter">{{ cart.total_quantity }}</span></h3>
+    <h3>Tổng tiền dự tính: <span class="cart-amount">{{ cart.total_amount }}</span></h3>
+</div>
+<div>
+    {% if current_user.is_authenticated %}
+    <input type="submit" class="btn" value="Đặt phòng" onclick="pay()" />
+    {% else %}
+    <a href="/login?next=/cart">Đăng nhập để đặt phòng!</a>
+    {% endif %}
+</div>
+{% else %}
+<p>Trống!</p>
+{% endif %}
+<script>
+    function checkDate() {
+        let checkIn = new Date(document.getElementById("check_in").value);
+        let today = new Date();
+        let timeDiff = Math.abs(checkIn - today);
+        let dayDiff = Math.ceil(timeDiff / (1000 * 60 * 60 * 24)); //miliseconds sang ngày
+        if (dayDiff > 28) {
+            alert("Ngày đặt phòng chỉ được đặt tối đa 28 ngày kể từ hôm nay!");
+            document.getElementById("check_in").value = '';
+            return false;
+        }
+        return true;
+    }
+    document.getElementById("check_in").addEventListener("change", checkDate);
+</script>
+<script>
+    function calculateTotalAmount() {
+        var checkIn = new Date(document.getElementById('check_in').value);
+        var checkOut = new Date(document.getElementById('check_out').value);
+        if (checkIn && checkOut && checkOut > checkIn) {
+            var day = Math.ceil((checkOut - checkIn) / (1000 * 60 * 60 * 24));
+            var totalAmount = parseFloat("{{ cart.total_amount }}");
+            var updatedTotalAmount = totalAmount * day;
+            document.querySelector('.cart-amount').innerText = updatedTotalAmount.toFixed(2); //hiển thị
+        }
+    }
+    document.getElementById('check_in').addEventListener('change', calculateTotalAmount);
+    document.getElementById('check_out').addEventListener('change', calculateTotalAmount);
+</script>
+{% endblock %}

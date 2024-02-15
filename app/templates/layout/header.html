@@ -1,0 +1,37 @@
+<header>
+	<div class="menu" id="menu">
+        <input type="checkbox" id="open">
+        <label for="open" class="open">
+            <i class="bx bx-menu"></i>
+        </label>
+        <div class="sub-menu">
+            <ul>
+                <li><a href="/">Trang Chủ</a></li>
+                {% for c in categories %}
+                <li><a href="/?id={{ c.id }}">{{ c.name }}</a></li>
+                {% endfor %}
+                <li><a href="/register">Đăng Ký</a></li>
+                <li><a href="/login">Đăng Nhập</a></li>
+                <li><a href="/logout">Đăng Xuất</a></li>
+                <li><a href="#contact">Liên Hệ</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="logo">
+    	<a href="/"><img src="logo.png" alt="Logo" width="150px" height="auto"></a>
+    </div>
+    <div class="search" id="search">
+        <input type="checkbox" id="key">
+        <li>
+            <label for="key" class="key">
+                <a class="bx bx-search-alt-2"></a>
+            </label>
+            <a href="/cart" class="bx bx-heart"><span class="cart">{{ cart.total_quantity }}</span></a>
+            <a>{{ current_user.name }}</a>
+<!--            <button class="translte" onclick="this.textContent = 'VN'">EN</button>-->
+        </li>
+        <div class="sub-search">
+            <li><form action="/"><input placeholder="Tìm kiếm..." name="keyword" type="text"><i class="bx bx-search" name="button" type="submit"></i></form></li>
+        </div>
+    </div>
+</header>

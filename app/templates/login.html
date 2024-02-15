@@ -1,0 +1,22 @@
+{% extends 'layout/base.html' %}
+{% block title %}Đăng Nhập{% endblock %}
+{% block content %}
+{% if err_msg %}
+<div class="alert alert-danger">
+    {{err_msg}}
+</div>
+{% endif %}
+<form method="post" align="center">
+    <div>
+<!--        <label for="username">Tên đăng nhập</label>-->
+        <input type="text" id="username" name="username" placeholder="Nhập tên đăng nhập" required>
+    </div>
+    <div>
+<!--        <label for="password">Mật khẩu</label>-->
+        <input type="password" id="password" name="password" placeholder="Nhập mật khẩu" required>
+    </div>
+    <div>
+        <input type="submit" class="btn" value="Đăng nhập" />
+    </div>
+</form>
+{% endblock %}

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>
+        {% block title %}{% endblock %}
+    </title>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+<!--    <link rel="stylesheet" href="{{ url_for('static', filename='css/grid.css') }}">-->
+    <script src="{{ url_for('static', filename='js/cart.js') }}"></script>
+    <style>
+        .container {
+            padding-top: 100px;
+            min-height: 600px
+        }
+        .button {
+            text-align: center;
+            padding: 10px 0;
+        }
+        .button a {
+            font-weight: bold;
+            border-radius: 5px;
+            padding: 5px 10px;
+        }
+        .button a:hover {
+            color: white;
+            background-color: black;
+        }
+        table, th, td {
+            font-family: Arial, sans-serif;
+            border: 1px solid black;
+            border-collapse: collapse;
+            padding: 8px;
+        }
+        tbody {
+            margin-bottom: 10px;
+        }
+        input[type="password"],
+        input[type="number"],
+        input[type="text"],
+        input[type="date"],
+        input[type="submit"] {
+            width: 200px;
+            padding: 5px;
+            margin-bottom: 10px;
+        }
+        input[type="button"] {
+            background-color: red;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+        select {
+            width: 200px;
+            padding: 8px;
+            margin-bottom: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            background-color: #fff;
+            cursor: pointer;
+        }
+        select:hover {
+            border-color: #aaa;
+        }
+        select:focus {
+            outline: none;
+            border-color: #5897fb;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+        }
+    </style>
+</head>
+<body>
+    {% include 'layout/header.html' %}
+    <div class="container">
+        {% block content %}{% endblock %}
+    </div>
+    {% include 'layout/footer.html' %}
+</body>
+<script src="{{ url_for('static', filename='js/cart.js') }}"></script>
+</html>
